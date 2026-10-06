@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NeuroCentre | Receptionist Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="dashboardCss.css">
+
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+
+            <div class="brand-text">
+                <strong>Arvind Neuro</strong>
+                <span>Brain Health Centre</span>
+            </div>
+
+        </div>
+
+
+        <nav class="nav-menu">
+
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Appointments</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-user-group"></i>
+                <span>Patients</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span>Neurologists</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-wave-square"></i>
+                <span>Diagnostics</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <i class="fa-solid fa-file-medical"></i>
+                <span>Reports</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="staff-card">
+
+                <div class="staff-avatar">
+                    RS
+                </div>
+
+                <div class="staff-info">
+                    <strong>Reception Staff</strong>
+                    <span>Front Desk</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>Receptionist Dashboard</h1>
+
+                <p>
+                    Manage today's neurological appointments and patient flow.
+                </p>
+
+            </div>
+
+
+            <div class="search-wrapper">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="search"
+                    id="globalSearch"
+                    placeholder="Search patient, DOB or neurologist..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             KPI METRICS
+        ====================================================== -->
+
+        <section class="metrics-grid">
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon blue">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="metric-info">
+
+                    <span>Total Patients Today</span>
+
+                    <strong id="totalPatients">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon purple">
+                    <i class="fa-solid fa-user-doctor"></i>
+                </div>
+
+                <div class="metric-info">
+
+                    <span>In Consultation</span>
+
+                    <strong id="inConsultation">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon teal">
+                    <i class="fa-solid fa-wave-square"></i>
+                </div>
+
+                <div class="metric-info">
+
+                    <span>EEG/MRI Rooms Active</span>
+
+                    <strong id="roomsActive">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon red">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <div class="metric-info">
+
+                    <span>Urgent Triage</span>
+
+                    <strong id="urgentCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             APPOINTMENT QUEUE
+        ====================================================== -->
+
+        <section class="queue-section">
+
+
+            <div class="queue-header">
+
+                <div class="queue-title">
+
+                    <h2>
+                        Today's Patient Queue
+                    </h2>
+
+                    <p id="queueSummary">
+                        Loading appointments...
+                    </p>
+
+                </div>
+
+
+                <div class="queue-actions">
+
+                    <button
+                        type="button"
+                        class="refresh-btn"
+                        id="refreshBtn"
+                    >
+                        <i class="fa-solid fa-rotate"></i>
+                        Refresh
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="walkin-btn"
+                        id="openWalkin"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        New Neuro Walk-In
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrapper">
+
+                <div class="table-scroll">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Patient</th>
+
+                                <th>Neurologist</th>
+
+                                <th>Appointment / Room</th>
+
+                                <th>Chief Complaint</th>
+
+                                <th>Status</th>
+
+                                <th>Quick Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="patientTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
+
+                    <i class="fa-solid fa-user-slash"></i>
+
+                    <div>
+                        No patients found.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- =============================================================
+     WALK-IN MODAL
+============================================================= -->
+
+<div
+    class="modal-overlay"
+    id="walkinModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="walkinTitle"
+    >
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="walkinTitle">
+                    New Neuro Walk-In
+                </h2>
+
+                <p>
+                    Add an urgent patient directly to today's queue.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="close-modal"
+                id="closeWalkin"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+
+        <form
+            class="walkin-form"
+            id="walkinForm"
+        >
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label for="walkinName">
+                        Patient Name *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="walkinName"
+                        required
+                        placeholder="Enter patient name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="walkinAgeGender">
+                        Age / Gender *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="walkinAgeGender"
+                        required
+                        placeholder="Example: 64F"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="walkinDob">
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        id="walkinDob"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="walkinDoctor">
+                        Assigned Neurologist *
+                    </label>
+
+                    <select
+                        id="walkinDoctor"
+                        required
+                    >
+
+                        <option value="">
+                            Select Neurologist
+                        </option>
+
+                        <option value="Dr. Aris|Stroke Specialist">
+                            Dr. Aris - Stroke Specialist
+                        </option>
+
+                        <option value="Dr. Chen|Epilepsy Specialist">
+                            Dr. Chen - Epilepsy Specialist
+                        </option>
+
+                        <option value="Dr. Meera|Movement Disorders">
+                            Dr. Meera - Movement Disorders
+                        </option>
+
+                        <option value="Dr. Rao|General Neurology">
+                            Dr. Rao - General Neurology
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="walkinType">
+                        Appointment Type *
+                    </label>
+
+                    <select
+                        id="walkinType"
+                        required
+                    >
+
+                        <option value="">
+                            Select type
+                        </option>
+
+                        <option>
+                            Urgent Neurology Evaluation
+                        </option>
+
+                        <option>
+                            Post-Stroke Evaluation
+                        </option>
+
+                        <option>
+                            Seizure / Epilepsy Review
+                        </option>
+
+                        <option>
+                            Migraine Assessment
+                        </option>
+
+                        <option>
+                            Movement Disorder Review
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="walkinRoom">
+                        Room
+                    </label>
+
+                    <select id="walkinRoom">
+
+                        <option>
+                            Triage Room
+                        </option>
+
+                        <option>
+                            Consultation Room 1
+                        </option>
+
+                        <option>
+                            Consultation Room 2
+                        </option>
+
+                        <option>
+                            EEG Room 3
+                        </option>
+
+                        <option>
+                            MRI Room
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="walkinComplaint">
+                        Chief Complaint / Alert *
+                    </label>
+
+                    <textarea
+                        id="walkinComplaint"
+                        required
+                        placeholder="Example: Sudden weakness, seizure follow-up, severe migraine aura..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="urgent-notice">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    This walk-in will automatically be marked
+                    <strong>Urgent / Priority</strong>.
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelWalkin"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Add Priority Patient
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     TOAST
+============================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+    aria-live="polite"
+>
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <span id="toastMessage">
+        Updated successfully
+    </span>
+
+</div>
+
+<script src="dashboardjs.js"> </script>
+
+</body>
+</html>
